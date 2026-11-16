@@ -3,13 +3,13 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Ирэлтийн баримт</title>
+<title>Ирсэн ачаа</title>
 <meta name="theme-color" content="#00696B">
 <link rel="manifest" href="manifest.webmanifest">
 <link rel="icon" href="icon-192.png">
 <link rel="apple-touch-icon" href="icon-192.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<meta name="apple-mobile-web-app-title" content="Ирэлт">
+<meta name="apple-mobile-web-app-title" content="Ирсэн ачаа">
 <style>
 :root{
   --teal:#009B9D; --dark:#00696B; --lime:#87C145; --ink:#1D2B2A; --grey:#6B7776;
@@ -73,7 +73,7 @@ textarea{min-height:70px;resize:vertical}
 <main>
   <!-- Sign-in -->
   <section id="vLogin" class="hidden">
-    <h1>Ирэлтийн баримт</h1>
+    <h1>Ирсэн ачааны баримт</h1>
     <p class="sub">Цайзад ирсэн барааны баримтын зургийг илгээх</p>
     <div class="card center">
       <p>Mera-гийн Microsoft хаягаараа нэвтэрнэ.</p>
@@ -188,7 +188,7 @@ async function putFile(folderId, name, blob, type){
     { method: "PUT", headers: {"Content-Type": type}, body: blob });
 }
 
-/* ---------- Excel log (Өрмийн захиалгын явц 2026.xlsx → Ирэлт) ---------- */
+/* ---------- Excel log (Өрмийн захиалгын явц 2026.xlsx → Ирсэн ачаа) ---------- */
 const WB = () => `/drives/${CFG.driveId}/items/${CFG.trackerItemId}/workbook`;
 async function ensureTable(){
   try { await gfetch(`${WB()}/tables/${CFG.table}`); return; } catch(e){ if (e.status !== 404) throw e; }

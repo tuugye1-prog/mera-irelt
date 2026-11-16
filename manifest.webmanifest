@@ -1,6 +1,6 @@
 {
-  "name": "Ирэлтийн баримт — Mera",
-  "short_name": "Ирэлт",
+  "name": "Mera — Ирсэн ачаа",
+  "short_name": "Ирсэн ачаа",
   "start_url": "./",
   "scope": "./",
   "display": "standalone",
