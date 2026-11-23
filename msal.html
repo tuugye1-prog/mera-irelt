@@ -1,0 +1,345 @@
+<!doctype html>
+<html lang="mn">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Ирсэн ачаа</title>
+<meta name="theme-color" content="#00696B">
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" href="icon-192.png">
+<link rel="apple-touch-icon" href="icon-192.png">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Ирсэн ачаа">
+<style>
+:root{
+  --teal:#009B9D; --dark:#00696B; --lime:#87C145; --ink:#1D2B2A; --grey:#6B7776;
+  --bg:#F3F7F7; --card:#FFFFFF; --line:#D6E4E4; --soft:#E0F2F2; --warn:#B42318; --warnbg:#FDE2DD;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;font-size:16px;-webkit-text-size-adjust:100%}
+header{background:#fff;border-bottom:3px solid var(--lime);padding:10px 16px;display:flex;align-items:center;gap:12px;position:sticky;top:0;z-index:5}
+header img{height:34px}
+header .who{margin-left:auto;text-align:right;font-size:13px;color:var(--grey);line-height:1.25}
+header .who b{color:var(--ink);font-weight:600;display:block}
+header button.link{background:none;border:0;color:var(--teal);font-size:13px;padding:0;cursor:pointer}
+main{max-width:560px;margin:0 auto;padding:16px 16px 40px}
+h1{font-size:20px;margin:6px 0 2px;color:var(--dark)}
+.sub{color:var(--grey);font-size:14px;margin:0 0 16px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:16px;margin-bottom:14px}
+.big{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;width:100%;min-height:150px;border:2px dashed var(--teal);border-radius:14px;background:var(--soft);color:var(--dark);font-size:20px;font-weight:700;cursor:pointer}
+.big svg{width:54px;height:54px}
+.row{display:flex;gap:10px;flex-wrap:wrap}
+.btn{appearance:none;border:0;border-radius:12px;padding:15px 16px;font-size:17px;font-weight:700;cursor:pointer;width:100%}
+.btn.primary{background:var(--teal);color:#fff}
+.btn.primary:disabled{background:#9CC9C9}
+.btn.ghost{background:#fff;color:var(--dark);border:1px solid var(--line);font-weight:600}
+.alt{display:block;text-align:center;margin-top:10px;color:var(--teal);font-size:15px;cursor:pointer}
+.thumbs{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.thumbs div{position:relative;aspect-ratio:3/4;border-radius:10px;overflow:hidden;background:#eee}
+.thumbs img{width:100%;height:100%;object-fit:cover}
+.thumbs button{position:absolute;top:4px;right:4px;width:28px;height:28px;border-radius:50%;border:0;background:rgba(0,0,0,.6);color:#fff;font-size:16px;line-height:28px;padding:0;cursor:pointer}
+label.f{display:block;font-size:14px;color:var(--grey);margin:12px 0 6px}
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{border:1px solid var(--line);background:#fff;border-radius:999px;padding:9px 16px;font-size:15px;cursor:pointer}
+.chip.on{background:var(--dark);color:#fff;border-color:var(--dark)}
+input[type=text],textarea{width:100%;border:1px solid var(--line);border-radius:10px;padding:12px;font-size:16px;font-family:inherit;background:#fff;color:var(--ink)}
+textarea{min-height:70px;resize:vertical}
+.po{display:flex;align-items:center;border:1px solid var(--line);border-radius:10px;background:#fff;overflow:hidden}
+.po span{padding:12px 0 12px 12px;color:var(--grey);font-weight:600}
+.po input{border:0;padding-left:4px;outline:none}
+.msg{border-radius:12px;padding:14px;margin-bottom:14px;font-size:15px;line-height:1.4}
+.msg.ok{background:#E8F4D9;border:1px solid #BFDDA0}
+.msg.err{background:var(--warnbg);border:1px solid #F4B7AC;color:var(--warn)}
+.msg.info{background:var(--soft);border:1px solid var(--line)}
+.progress{height:8px;background:var(--soft);border-radius:99px;overflow:hidden;margin-top:10px}
+.progress i{display:block;height:100%;width:0;background:var(--teal);transition:width .2s}
+.hist h2{font-size:16px;margin:0 0 8px;color:var(--dark)}
+.hist ul{list-style:none;margin:0;padding:0}
+.hist li{display:flex;justify-content:space-between;gap:10px;padding:10px 0;border-top:1px solid var(--line);font-size:14px}
+.hist li:first-child{border-top:0}
+.hist .t{color:var(--grey);font-size:13px}
+.badge{white-space:nowrap;align-self:center;font-size:12px;font-weight:700;padding:4px 10px;border-radius:99px;background:#FFF2CC;color:#7A5B00}
+.badge.done{background:#E8F4D9;color:#3D6B12}
+.hidden{display:none!important}
+.center{text-align:center}
+.small{font-size:13px;color:var(--grey)}
+</style>
+</head>
+<body>
+<header>
+  <img src="logo.png" alt="Mera">
+  <div class="who hidden" id="who"><b id="whoName"></b><button class="link" id="logout">Гарах</button></div>
+</header>
+<main>
+  <!-- Sign-in -->
+  <section id="vLogin" class="hidden">
+    <h1>Ирсэн ачааны баримт</h1>
+    <p class="sub">Цайзад ирсэн барааны баримтын зургийг илгээх</p>
+    <div class="card center">
+      <p>Mera-гийн Microsoft хаягаараа нэвтэрнэ.</p>
+      <button class="btn primary" id="login">Microsoft-оор нэвтрэх</button>
+    </div>
+  </section>
+
+  <!-- Main -->
+  <section id="vMain" class="hidden">
+    <h1>Баримт илгээх</h1>
+    <p class="sub">Бараа хүлээж аваад гарын үсэг зурмагц баримтынхаа зургийг дарж илгээнэ.</p>
+    <div id="out"></div>
+
+    <div class="card">
+      <label class="big" for="cam">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M3 8.5A2.5 2.5 0 0 1 5.5 6h1.8l1.4-2h6.6l1.4 2h1.8A2.5 2.5 0 0 1 21 8.5v9a2.5 2.5 0 0 1-2.5 2.5h-13A2.5 2.5 0 0 1 3 17.5z"/><circle cx="12" cy="13" r="3.8"/></svg>
+        <span id="camLabel">Баримтын зураг авах</span>
+      </label>
+      <input id="cam" type="file" accept="image/*" capture="environment" class="hidden">
+      <input id="gal" type="file" accept="image/*" multiple class="hidden">
+      <a class="alt" id="galBtn">Галерейгаас сонгох</a>
+      <div class="thumbs" id="thumbs"></div>
+
+      <label class="f">Нийлүүлэгч</label>
+      <div class="chips" id="sup">
+        <button class="chip on" data-v="Epiroc">Epiroc</button>
+        <button class="chip" data-v="Бусад">Бусад</button>
+      </div>
+
+      <label class="f" for="po">PO дугаар (мэдэх бол)</label>
+      <div class="po"><span>PO</span><input id="po" type="text" inputmode="numeric" placeholder="15625" maxlength="8"></div>
+
+      <label class="f" for="note">Тайлбар (заавал биш)</label>
+      <textarea id="note" placeholder="Жишээ нь: 2 хайрцаг дутуу, савлагаа гэмтсэн…"></textarea>
+
+      <div style="margin-top:16px"><button class="btn primary" id="send" disabled>Илгээх</button></div>
+      <div class="progress hidden" id="prog"><i id="progBar"></i></div>
+      <p class="small center hidden" id="progTxt"></p>
+    </div>
+
+    <div class="card hist">
+      <h2>Миний илгээсэн</h2>
+      <ul id="hist"><li class="small">Ачаалж байна…</li></ul>
+    </div>
+  </section>
+
+  <section id="vBoot"><p class="center small" style="margin-top:40px">Ачаалж байна…</p></section>
+</main>
+
+<script src="msal-browser.min.js"></script>
+<script>
+/* ===================== ТОХИРГОО ===================== */
+const CFG = {
+  clientId: "78ce00ea-167e-48b4-88c5-446129e4157e",            // Entra: "Mera Irelt - Storekeeper photos"
+  tenantId: "fd7a51e6-7d0a-4359-ab44-0b84eb093e12",         // Mera tenant
+  driveId:  "b!nv-SUndmIU2pNlWdBpzeJuuNuzSLT35LoVlDBwskdv67089NiEGORKB_riiqLN8D", // Tuguldur.En OneDrive
+  irelFolderId: "01IL3PKW5IQV2SN3OKQBCYOD4N3ZOIRLUN",      // Өрмийн захиалгын хяналт / Ирсэн ачааны баримт
+  trackerItemId: "01IL3PKWYL6ZJ2MEJ67ZHLXQLUG3XOCRQ2",     // Өрмийн захиалгын явц 2026.xlsx
+  sheet: "Ирсэн ачаа",
+  table: "IrelLog",
+  scopes: ["User.Read", "Files.ReadWrite.All"]
+};
+const HEAD = ["Огноо","Цаг","Нярав","Нийлүүлэгч","PO","Тайлбар","Зураг","Хавтас","Төлөв","Шалгасан тэмдэглэл"];
+const G = "https://graph.microsoft.com/v1.0";
+/* ==================================================== */
+
+const $ = id => document.getElementById(id);
+const show = id => ["vBoot","vLogin","vMain"].forEach(v => $(v).classList.toggle("hidden", v !== id));
+const pad = n => String(n).padStart(2,"0");
+let msalApp, account, me = {name:""}, photos = [], supplier = "Epiroc";
+
+const msalCfg = {
+  auth: {
+    clientId: CFG.clientId,
+    authority: "https://login.microsoftonline.com/" + CFG.tenantId,
+    redirectUri: location.origin + location.pathname
+  },
+  cache: { cacheLocation: "localStorage" }
+};
+
+async function token(){
+  const req = { scopes: CFG.scopes, account };
+  try { return (await msalApp.acquireTokenSilent(req)).accessToken; }
+  catch(e){ await msalApp.acquireTokenRedirect(req); throw e; }
+}
+async function gfetch(path, opt = {}){
+  const t = await token();
+  const r = await fetch(path.startsWith("http") ? path : G + path, {
+    ...opt, headers: { Authorization: "Bearer " + t, ...(opt.headers || {}) }
+  });
+  if (!r.ok){
+    let body = ""; try { body = await r.text(); } catch(_){}
+    const err = new Error(r.status + " " + body.slice(0,300)); err.status = r.status; throw err;
+  }
+  return r.status === 204 ? null : r.json();
+}
+const J = (method, obj) => ({ method, headers: {"Content-Type":"application/json"}, body: JSON.stringify(obj) });
+
+/* ---------- OneDrive ---------- */
+async function ensureChild(parentId, name){
+  const d = CFG.driveId;
+  try {
+    return await gfetch(`/drives/${d}/items/${parentId}/children`,
+      J("POST", { name, folder: {}, "@microsoft.graph.conflictBehavior": "fail" }));
+  } catch(e){
+    if (e.status === 409) return gfetch(`/drives/${d}/items/${parentId}:/${encodeURIComponent(name)}`);
+    throw e;
+  }
+}
+async function putFile(folderId, name, blob, type){
+  return gfetch(`/drives/${CFG.driveId}/items/${folderId}:/${encodeURIComponent(name)}:/content`,
+    { method: "PUT", headers: {"Content-Type": type}, body: blob });
+}
+
+/* ---------- Excel log (Өрмийн захиалгын явц 2026.xlsx → Ирсэн ачаа) ---------- */
+const WB = () => `/drives/${CFG.driveId}/items/${CFG.trackerItemId}/workbook`;
+async function ensureTable(){
+  try { await gfetch(`${WB()}/tables/${CFG.table}`); return; } catch(e){ if (e.status !== 404) throw e; }
+  const ws = encodeURIComponent(CFG.sheet);
+  try { await gfetch(`${WB()}/worksheets/add`, J("POST", { name: CFG.sheet })); } catch(e){ /* аль хэдийн байгаа */ }
+  const last = String.fromCharCode(64 + HEAD.length);
+  await gfetch(`${WB()}/worksheets/${ws}/range(address='A1:${last}1')`, J("PATCH", { values: [HEAD] }));
+  const t = await gfetch(`${WB()}/worksheets/${ws}/tables/add`, J("POST", { address: `A1:${last}1`, hasHeaders: true }));
+  await gfetch(`${WB()}/tables/${t.id}`, J("PATCH", { name: CFG.table }));
+}
+async function addRow(values){
+  await ensureTable();
+  return gfetch(`${WB()}/tables/${CFG.table}/rows`, J("POST", { values: [values] }));
+}
+async function loadHistory(){
+  const ul = $("hist");
+  try {
+    await ensureTable();
+    const r = await gfetch(`${WB()}/tables/${CFG.table}/rows`);
+    const mine = r.value.map(x => x.values[0]).filter(v => v[2] === me.name).reverse().slice(0, 10);
+    if (!mine.length){ ul.innerHTML = '<li class="small">Одоогоор илгээсэн баримт алга.</li>'; return; }
+    ul.innerHTML = mine.map(v => {
+      const done = String(v[8] || "").trim() && v[8] !== "Шинэ";
+      const po = v[4] ? " · " + v[4] : "";
+      return `<li><div><b>${esc(v[3])}${esc(po)}</b> · ${esc(v[6])} зураг<div class="t">${esc(v[0])} ${esc(v[1])}${v[9] ? " · " + esc(v[9]) : ""}</div></div>
+        <span class="badge ${done ? "done" : ""}">${done ? "✓ " + esc(v[8]) : "Хүлээгдэж байна"}</span></li>`;
+    }).join("");
+  } catch(e){
+    ul.innerHTML = `<li class="small">Түүхийг ачаалж чадсангүй (${esc(String(e.status || ""))}).</li>`;
+  }
+}
+const esc = s => String(s ?? "").replace(/[&<>"]/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]));
+
+/* ---------- Photos ---------- */
+async function compress(file){
+  const bmp = await createImageBitmap(file, { imageOrientation: "from-image" }).catch(() => createImageBitmap(file));
+  const max = 1800, k = Math.min(1, max / Math.max(bmp.width, bmp.height));
+  const c = document.createElement("canvas");
+  c.width = Math.round(bmp.width * k); c.height = Math.round(bmp.height * k);
+  c.getContext("2d").drawImage(bmp, 0, 0, c.width, c.height);
+  return new Promise(res => c.toBlob(res, "image/jpeg", 0.82));
+}
+async function addFiles(list){
+  for (const f of list){
+    if (!f.type.startsWith("image/")) continue;
+    const blob = await compress(f);
+    photos.push({ blob, url: URL.createObjectURL(blob) });
+  }
+  renderThumbs();
+}
+function renderThumbs(){
+  $("thumbs").innerHTML = photos.map((p, i) =>
+    `<div><img src="${p.url}" alt=""><button data-i="${i}" aria-label="Устгах">×</button></div>`).join("");
+  $("send").disabled = photos.length === 0;
+  $("send").textContent = photos.length ? `Илгээх (${photos.length} зураг)` : "Илгээх";
+  $("camLabel").textContent = photos.length ? "Дараагийн хуудсыг авах" : "Баримтын зураг авах";
+}
+$("thumbs").addEventListener("click", e => {
+  const i = e.target.dataset.i; if (i === undefined) return;
+  URL.revokeObjectURL(photos[i].url); photos.splice(+i, 1); renderThumbs();
+});
+$("cam").addEventListener("change", e => { const l = Array.from(e.target.files); e.target.value = ""; addFiles(l); });
+$("gal").addEventListener("change", e => { const l = Array.from(e.target.files); e.target.value = ""; addFiles(l); });
+$("galBtn").addEventListener("click", () => $("gal").click());
+$("sup").addEventListener("click", e => {
+  const b = e.target.closest(".chip"); if (!b) return;
+  supplier = b.dataset.v;
+  [...$("sup").children].forEach(x => x.classList.toggle("on", x === b));
+});
+
+function say(kind, html){ $("out").innerHTML = `<div class="msg ${kind}">${html}</div>`; window.scrollTo({top:0,behavior:"smooth"}); }
+function prog(p, txt){ $("prog").classList.remove("hidden"); $("progTxt").classList.remove("hidden"); $("progBar").style.width = p + "%"; $("progTxt").textContent = txt; }
+
+/* ---------- Send ---------- */
+$("send").addEventListener("click", async () => {
+  if (!photos.length) return;
+  $("send").disabled = true; $("out").innerHTML = "";
+  const now = new Date();
+  const day = `${now.getFullYear()}.${pad(now.getMonth()+1)}.${pad(now.getDate())}`;
+  const time = `${pad(now.getHours())}:${pad(now.getMinutes())}`;
+  const month = `${now.getFullYear()}-${pad(now.getMonth()+1)}`;
+  const poRaw = $("po").value.replace(/\D/g, "");
+  const po = poRaw ? "PO" + poRaw : "";
+  const note = $("note").value.trim();
+  const who = (me.name || "Нярав").split(/[ .]/)[0];
+  const batch = `${day.replace(/\./g,"-")}_${time.replace(":","")}_${supplier}${po ? "_" + po : ""}_${who}`;
+  let step = 0; const total = photos.length + 3;
+  try {
+    prog(5, "Хавтас бэлдэж байна…");
+    const m = await ensureChild(CFG.irelFolderId, month);
+    const f = await ensureChild(m.id, batch); step++;
+    for (let i = 0; i < photos.length; i++){
+      prog(Math.round(100 * ++step / total), `Зураг ${i+1}/${photos.length} илгээж байна…`);
+      await putFile(f.id, `${batch}_${i+1}.jpg`, photos[i].blob, "image/jpeg");
+    }
+    const info = { ognoo: day, tsag: time, nyarav: me.name, mail: me.mail, niiluulegch: supplier, po, taiilbar: note, zurag: photos.length };
+    await putFile(f.id, "info.json", new Blob([JSON.stringify(info, null, 2)], {type:"application/json"}), "application/json");
+    prog(Math.round(100 * ++step / total), "Бүртгэлд нэмж байна…");
+    let logged = true;
+    try { await addRow([day, time, me.name, supplier, po, note, photos.length, f.webUrl, "Шинэ", ""]); }
+    catch(e){ logged = false; console.warn(e); }
+    prog(100, "Дууслаа");
+    photos.forEach(p => URL.revokeObjectURL(p.url)); photos = []; renderThumbs();
+    $("po").value = ""; $("note").value = "";
+    say("ok", `<b>Илгээгдлээ ✓</b> ${info.zurag} зураг${po ? " · " + po : ""}. Баярлалаа!` +
+      (logged ? "" : `<br><span class="small">Зураг хадгалагдсан, гэхдээ хүснэгтэд бичигдсэнгүй — Төгөлдөр шалгана.</span>`));
+    loadHistory();
+  } catch(e){
+    console.error(e);
+    const hint = e.status === 403 || e.status === 404
+      ? "Хавтас танд хуваалцагдаагүй эсвэл эрх хүрэхгүй байна. Төгөлдөрт хэлнэ үү."
+      : "Интернэтээ шалгаад дахин <b>Илгээх</b> дарна уу. Зургууд чинь хадгалагдсан хэвээр байна.";
+    say("err", `<b>Илгээж чадсангүй.</b> ${hint}<br><span class="small">${esc(e.message).slice(0,160)}</span>`);
+    $("send").disabled = photos.length === 0;
+  } finally {
+    setTimeout(() => { $("prog").classList.add("hidden"); $("progTxt").classList.add("hidden"); }, 1200);
+  }
+});
+
+/* ---------- Auth boot ---------- */
+$("login").addEventListener("click", () => msalApp.loginRedirect({ scopes: CFG.scopes, prompt: "select_account" }));
+$("logout").addEventListener("click", () => msalApp.logoutRedirect({ account }));
+
+(async function boot(){
+  if (CFG.clientId.startsWith("PASTE")){
+    show("vLogin"); $("login").disabled = true;
+    $("login").insertAdjacentHTML("afterend", '<p class="msg err" style="margin-top:12px">Тохиргоо дутуу: clientId оруулаагүй байна.</p>');
+    return;
+  }
+  msalApp = new msal.PublicClientApplication(msalCfg);
+  await msalApp.initialize();
+  let res = null;
+  try { res = await msalApp.handleRedirectPromise(); }
+  catch(e){
+    show("vLogin");
+    const admin = /AADSTS(65001|90094|90008)/.test(e.message || "");
+    $("login").insertAdjacentHTML("afterend", `<p class="msg err" style="margin-top:12px">${admin
+      ? "Энэ аппыг Mera-гийн IT админ зөвшөөрөх шаардлагатай байна."
+      : "Нэвтэрч чадсангүй: " + esc((e.errorMessage || e.message || "").slice(0,160))}</p>`);
+    return;
+  }
+  account = res?.account || msalApp.getAllAccounts()[0];
+  if (!account){ show("vLogin"); return; }
+  msalApp.setActiveAccount(account);
+  try {
+    const u = await gfetch("/me?$select=displayName,mail,userPrincipalName");
+    me = { name: u.displayName, mail: u.mail || u.userPrincipalName };
+  } catch(e){ me = { name: account.name || account.username, mail: account.username }; }
+  $("whoName").textContent = me.name; $("who").classList.remove("hidden");
+  show("vMain"); renderThumbs(); loadHistory();
+})();
+</script>
+</body>
+</html>
